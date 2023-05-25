@@ -8,4 +8,5 @@ Thank you!
 
 Specs:
 -11 digits capacity.
+
 -3 decimal places precision (if the number was supposed to be for example 0,0001 it will be shown as 0).
