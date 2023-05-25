@@ -5,3 +5,7 @@ It's a project from section 2 of the course, and my first one using JavaScript, 
 so it might have some bugs that probably I will never notice but if I do, it will be fixed.
 Feel free to give suggestions, complainings, congrats, help with bugs or whatever you like.
 Thank you!
+
+Specs:
+-11 digits capacity.
+-3 decimal places precision (if the number was supposed to be for example 0,0001 it will be shown as 0).
