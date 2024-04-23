@@ -1,4 +1,4 @@
-#Windows calculator#
+## Windows calculator
 
 This is a project from an JavaScript on going course, the HTML I used from "Hcode treinamentos" as an example, and made all the JS code myself.
 It's a project from section 2 of the course, and my first one using JavaScript, also as HTML,
