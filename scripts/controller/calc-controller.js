@@ -460,7 +460,7 @@ class calcController{
 
         let lastNumberToDisplay;
 
-        if(this.isFloat(lastNumber)){ //set the five plates maximum on display
+        if(this.isFloat(lastNumber)){ //set the five places maximum on display
             let lastNumMod = parseFloat(lastNumber.toFixed(5));
             
             lastNumberToDisplay = lastNumMod.toString().replace('.', ',');
