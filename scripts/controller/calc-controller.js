@@ -1,8 +1,8 @@
 class calcController{
     constructor(){
-        this._lastOperator = '';
-        this._lastNumber = '';
-        this._operation = [];
+        this._lastOperator = ''; // get the last operator
+        this._lastNumber = ''; //get the last number
+        this._operation = []; // get the number then operator then number again in an array and do the operation
         this._displayCalcEl = document.querySelector("#display");
         this.initialize();
         this.initButtons();
@@ -55,7 +55,7 @@ class calcController{
 
     }
 
-    setError(){
+    setError(){ //set error on display
 
         this.displayCalc = "error";
 
@@ -67,19 +67,19 @@ class calcController{
 
     }
 
-    isOperator(value){
+    isOperator(value){ //verify if it is a operator
 
         return(['+', '-', '*', '/', '%'].indexOf(value) > -1);
 
     }
 
-    setLastOperation(value){
+    setLastOperation(value){ 
 
         this._operation[this._operation.length-1] = value;
 
     }
 
-    pushOperation(value){
+    pushOperation(value){ // get the value then push in the array, and verify if the length of the array is higher than 3 is true, if it is then call this.calc() to calculate. 
 
         this._operation.push(value);
 
@@ -105,28 +105,31 @@ class calcController{
     calc(){
         
         let last = '';
-        this._lastOperator = this.getLastItem();
+        this._lastOperator = this.getLastItem(); //get the last operator on the array
 
-        if(this._operation.length < 3){
+        if(this._operation.length < 3){ // verify if the array have the appropriate length
 
-            if(this._lastOperator == ''){
+            if(this._lastOperator == ''){ //if the last operator is empty, then return
                 return;
             }
             
-            let firstItem = this._operation[0];
+            let firstItem = this._operation[0]; //get the first item, may be a number or not
             
-            this._operation = [firstItem, this._lastOperator, this._lastNumber];
+            this._operation = [firstItem, this._lastOperator, this._lastNumber]; 
             
 
-        }else if(this._operation.length > 3){
+        }else if(this._operation.length > 3){ //right after picking the first three items if the next one is a operator then it calculate, "last" is going to be the operator and
+                                              // "this._lastNumber" is the result
 
             last = this._operation.pop();
+            console.log(last);
             this._lastNumber = this.getResult();
+            console.log(this._lastNumber);
 
         }else if(this._operation.length == 3){
             
 
-            if(this.getResult() == 0){
+            if(this.getResult() == 0){ 
                 this.displayCalc = this.getResult();
 
                 let result = this.getResult();
@@ -193,10 +196,10 @@ class calcController{
 
     addOperation(value){
 
-        if(isNaN(this.getLastOperation())){
-            if(this.isOperator(value)){
+        if(isNaN(this.getLastOperation())){ //check if it is not a number
+            if(this.isOperator(value)){ //if its a operator
                 
-                this.setLastOperation(value);
+                this.setLastOperation(value); //set as operator
                 
             }
             else{
@@ -305,7 +308,7 @@ class calcController{
         this.setLastNumberToDisplay();
     }
 
-    execBtn(value){
+    execBtn(value){ //verify wich button was clicked
 
         switch(value){
             case '1':
@@ -372,7 +375,7 @@ class calcController{
 
     }
 
-    initKeyboard(){
+    initKeyboard(){ //initialize the keyboard
 
         document.addEventListener('keyup', e=>{
 
@@ -426,19 +429,19 @@ class calcController{
 
     }
 
-    initButtons(){
+    initButtons(){ //initialize the buttons
         let buttonNum = document.querySelectorAll('.btn-number');
 
         let buttonOp = document.querySelectorAll('.btn-others');
 
-        buttonNum.forEach(button => {
+        buttonNum.forEach(button => { //get the numbers
             this.addEventListenerAll(button, "click drag", e => {
                 let num = button.textContent;
                 this.execBtn(num);
             });
         });
 
-        buttonOp.forEach(button =>{
+        buttonOp.forEach(button =>{ //get the operators
             this.addEventListenerAll(button, "click drag", e =>{
                 let operator = button.textContent;
                 this.execBtn(operator);
@@ -447,18 +450,18 @@ class calcController{
 
     }
     
-    isFloat(number){
+    isFloat(number){ //return a boolean
         return Number(number) === number && number % 1 !== 0;
     }
     
-    setLastNumberToDisplay(){
+    setLastNumberToDisplay(){ //set the last number in the array on display
         let lastNumber = this.getLastItem(false);
-        if(!lastNumber) lastNumber = 0;
+        if(!lastNumber) lastNumber = 0; //if doesn't exist
 
         let lastNumberToDisplay;
 
-        if(this.isFloat(lastNumber)){
-            let lastNumMod = parseFloat(lastNumber.toFixed(3));
+        if(this.isFloat(lastNumber)){ //set the five plates maximum on display
+            let lastNumMod = parseFloat(lastNumber.toFixed(5));
             
             lastNumberToDisplay = lastNumMod.toString().replace('.', ',');
         
@@ -474,32 +477,41 @@ class calcController{
         }
     }
 
-    addDot(){
+    addDot(){ 
 
         let lastOperation = this.getLastOperation();
 
         if(typeof lastOperation === 'string' && lastOperation.split('').indexOf('.') > -1) return;
-
-        if(this.isOperator(lastOperation) || !lastOperation){
-
-            this.pushOperation('0.');
-
-        }else{
-
+        
+        
+        if(lastOperation == 0){ //if the last operation is 0 then just add a dot in it
             this.setLastOperation(lastOperation.toString() + '.');
-
+        }
+        else if(this.isOperator(lastOperation) || !lastOperation){ //verify if the last operation is an operator and if its empty
+            
+                this.pushOperation('0.');
+            
+        }else{
+            if(this.isFloat(lastOperation)){ //verify if it is a float so it doesn't add two dots
+                return;
+            }
+            else{ //everything else
+                
+                this.setLastOperation(lastOperation.toString() + '.');
+            }
+            
         }
 
-        this.setLastNumberToDisplay();
+        this.setLastNumberToDisplay(); //set in the display the last number
 
     }
 
-    get displayCalc(){
+    get displayCalc(){ // get the display 
         return this._displayCalcEl.innerHTML;
     }
-    set displayCalc(value){
-
-        if(value.toString().length > 11){
+    set displayCalc(value){ //set the value in the display
+        
+        if(value.toString().length > 11){ //the limit of number in the display
             this.setError();
             return false;
         }
