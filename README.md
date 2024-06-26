@@ -10,4 +10,4 @@ Specs:
 
 -11 digits capacity.
 
--3 decimal places precision (if the number was supposed to be 0,0001 for example, it will be shown as 0).
+-5 decimal places precision (if the number was supposed to be 0,000001 for example, it will be shown as 0).
